@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public void getNews() {
 
         // Instantiate the RequestQueue.
-        String url = "https://newsapi.org/v2/top-headlines?country=kr&apiKey=c6ab276010b44a33bb2bdeaa5c7a20c0";
+        String url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=c6ab276010b44a33bb2bdeaa5c7a20c0";
 
 
 
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.i("여기까지","들어왓나");
 
                         try {
                             JSONObject jsonObj = new JSONObject(response);
@@ -133,13 +132,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
 
-            Uri uri = Uri.parse("https://raw.githubusercontent.com/facebook/fresco/master/docs/static/logo.png");
-
             NewsData news = list.get(position);
 
+            Uri uri = Uri.parse(news.getUrlToImage());
+
             viewHolder.binding.TextViewTitle.setText(news.getTitle());
+            String content = news.getContent();
+            if (content != null && content.length() > 0) {
+                viewHolder.binding.TextViewContent.setText(content);
+            }
+            else {
+                viewHolder.binding.TextViewContent.setText("-");
+            }
             viewHolder.binding.TextViewContent.setText(news.getContent());
-            viewHolder.binding.ImageViewTitle.setImageURI(uri);
+            viewHolder.binding.ImageViewTitle.setImageURI("");
+
 
 
 
@@ -147,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return list == null ? 0 : list.size();
         }
     }
 

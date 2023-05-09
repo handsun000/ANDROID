@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1080303589900",
+    "project_id": "pictureedit-1da05",
+    "storage_bucket": "pictureedit-1da05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080303589900:android:12dac27c7a37488f756c29",
+        "android_client_info": {
+          "package_name": "com.example.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080303589900-knov1bj09fkoovpnr38q0adkt8l85qvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5ie_JgV1-L9zJKGeU02KMKHqt2_1Yzmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080303589900-knov1bj09fkoovpnr38q0adkt8l85qvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
