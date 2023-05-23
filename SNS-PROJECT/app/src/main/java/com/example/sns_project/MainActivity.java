@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
-import com.example.sns_project.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,18 +20,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user == null) {
             startMyActivity(SignUpActivity.class);
         } else {
+
+            startMyActivity(CameraActivity.class);
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("users").document(user.getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -56,12 +57,18 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        binding.logoutButton.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            startMyActivity(SignUpActivity.class);
-        });
-
+        findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.logoutButton) {
+                FirebaseAuth.getInstance().signOut();
+                startMyActivity(SignUpActivity.class);
+            }
+        }
+    };
 
     private void startMyActivity(Class c) {
         Intent intent = new Intent(this, c);

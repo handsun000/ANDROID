@@ -3,13 +3,13 @@ package com.example.sns_project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sns_project.databinding.ActivityLoginBinding;
-import com.example.sns_project.databinding.ActivityPasswordResetBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,26 +18,31 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class PasswordResetActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    ActivityPasswordResetBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPasswordResetBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_password_reset);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        binding.sendButton.setOnClickListener(view -> {
-            Log.d("BUTTON", "CLICK");
-            send();
-        });
+        findViewById(R.id.sendButton).setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.sendButton) {
+                Log.d("Button", "CLICK");
+                send();
+            }
+        }
+    };
 
     public void send() {
 
-        String email = binding.editTextEmail.getText().toString();
+        String email = ((EditText)findViewById(R.id.editTextEmail)).getText().toString();
 
         if (email.length() > 0) {
             mAuth.sendPasswordResetEmail(email)

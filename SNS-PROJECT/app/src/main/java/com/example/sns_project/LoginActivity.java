@@ -3,13 +3,13 @@ package com.example.sns_project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sns_project.databinding.ActivityLoginBinding;
-import com.example.sns_project.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,30 +18,34 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_login);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        binding.loginButton.setOnClickListener(view -> {
-            login();
-        });
-
-        binding.gotoPasswordResetButton.setOnClickListener(view -> {
-            startMyActivity(PasswordResetActivity.class);
-        });
+        findViewById(R.id.loginButton).setOnClickListener(onClickListener);
+        findViewById(R.id.gotoPasswordResetButton).setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.loginButton) {
+                login();
+            } else if (v.getId() == R.id.gotoPasswordResetButton) {
+                startMyActivity(PasswordResetActivity.class);
+            }
+        }
+    };
 
     public void login() {
 
-        String email = binding.editTextEmail.getText().toString();
-        String password = binding.editTextPw.getText().toString();
+        String email = ((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+        String password = ((EditText)findViewById(R.id.editTextPw)).getText().toString();
 
         if (email.length() > 0 && password.length() > 0) {
             mAuth.signInWithEmailAndPassword(email, password)

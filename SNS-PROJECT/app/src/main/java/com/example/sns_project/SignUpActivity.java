@@ -1,15 +1,16 @@
 package com.example.sns_project;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sns_project.databinding.ActivityMainBinding;
-import com.example.sns_project.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,26 +19,30 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    ActivitySignUpBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_sign_up);
+
+        findViewById(R.id.signUpButton).setOnClickListener(onClickListener);
+        findViewById(R.id.gotoLoginButton).setOnClickListener(onClickListener);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
-        binding.signUpButton.setOnClickListener(view ->{
-            Log.d("BUTTON", "CLICK");
-            signUp();
-        });
-
-        binding.gotoLoginButton.setOnClickListener(view -> {
-            startMyActivity(LoginActivity.class);
-        });
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.signUpButton) {
+                Log.e("Button", "click");
+                signUp();
+            } else if (v.getId() == R.id.gotoLoginButton) {
+                startMyActivity(LoginActivity.class);
+            }
+        }
+    };
 
     @Override
     public void onStart() {
@@ -56,9 +61,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signUp() {
 
-        String email = binding.editTextEmail.getText().toString();
-        String password = binding.editTextPw.getText().toString();
-        String passwordCheck = binding.editTextPw2.getText().toString();
+        String email = ((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+        String password = ((EditText)findViewById(R.id.editTextPw)).getText().toString();
+        String passwordCheck = ((EditText)findViewById(R.id.editTextPw2)).getText().toString();
 
         if (email.length() > 0 && password.length() > 0 && passwordCheck.length() > 0) {
             if (password.equals(passwordCheck)) {
